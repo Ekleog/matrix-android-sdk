@@ -3261,7 +3261,7 @@ public class CryptoTest {
 
         doE2ETestWithAliceInARoom();
 
-        Room room = mAliceSession.getDataHandler().getRoom(mRoomId);
+        Room roomFromAlicePOV = mAliceSession.getDataHandler().getRoom(mRoomId);
 
         createBobAccount();
         CountDownLatch lock0 = new CountDownLatch(1);
@@ -3291,7 +3291,7 @@ public class CryptoTest {
 
         mBobSession.getDataHandler().addListener(bobEventListener);
 
-        room.invite(mBobSession.getMyUserId(), new TestApiCallback<Void>(lock1) {
+        roomFromAlicePOV.invite(mBobSession.getMyUserId(), new TestApiCallback<Void>(lock1) {
             @Override
             public void onSuccess(Void info) {
                 statuses.put("invite", "invite");
@@ -3333,7 +3333,7 @@ public class CryptoTest {
             }
         });
 
-        room.addEventListener(new MXEventListener() {
+        roomFromAlicePOV.addEventListener(new MXEventListener() {
             @Override
             public void onLiveEvent(Event event, RoomState roomState) {
                 if (TextUtils.equals(event.getType(), Event.EVENT_TYPE_STATE_ROOM_MEMBER)) {
